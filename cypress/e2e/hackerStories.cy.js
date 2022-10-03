@@ -102,7 +102,7 @@ describe('Hacker Stories', () => {
         .clear()
     })
 
-    it.only('types and hits ENTER', () => {
+    it('types and hits ENTER', () => {
     
       cy.get('#search')
         .type(`${newTerm}{enter}`)
@@ -117,23 +117,14 @@ describe('Hacker Stories', () => {
         .should('be.visible')
     })
 
-    it('types and clicks the submit button', () => {
-
-      cy.intercept({
-        method: 'GET',
-        pathname: '**/v1/search',
-        query: {
-          query: newTerm,
-          page: '0'
-          },
-        }).as('getNewTermSubmit')
+    it.only('types and clicks the submit button', () => {
 
       cy.get('#search')
         .type(newTerm)
       cy.contains('Submit')
         .click()
 
-      cy.wait('@getNewTermSubmit')
+      cy.wait('@getNewTermStories')
 
       cy.get('.item').should('have.length', 20)
       cy.get('.item')
