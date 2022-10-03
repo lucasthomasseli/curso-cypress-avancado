@@ -117,7 +117,7 @@ describe('Hacker Stories', () => {
         .should('be.visible')
     })
 
-    it.only('types and clicks the submit button', () => {
+    it('types and clicks the submit button', () => {
 
       cy.get('#search')
         .type(newTerm)
@@ -137,34 +137,16 @@ describe('Hacker Stories', () => {
     context('Last searches', () => {
       it('searches via the last searched term', () => {
 
-        cy.intercept({
-          method: 'GET',
-          pathname: '**/v1/search',
-          query: {
-            query: newTerm,
-            page: '0'
-            },
-          }).as('getNewTermEnter')
-
         cy.get('#search')
           .type(`${newTerm}{enter}`)
 
-        cy.wait('@getNewTermEnter')
-
-        cy.intercept({
-          method: 'GET',
-          pathname: '**/v1/search',
-          query: {
-            query: initialTerm,
-            page: '0'
-            },
-          }).as('getInitialTermEnter')
+        cy.wait('@getNewTermStories')
 
         cy.get(`button:contains(${initialTerm})`)
           .should('be.visible')
           .click()
 
-        cy.wait('@getInitialTermEnter')
+        cy.wait('@getStories')
 
         cy.get('.item').should('have.length', 20)
         cy.get('.item')
