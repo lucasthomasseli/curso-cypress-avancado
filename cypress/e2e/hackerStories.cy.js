@@ -24,11 +24,7 @@ describe('Hacker Stories', () => {
   })
 
   context('List of stories', () => {
-    // Since the API is external,
-    // I can't control what it will provide to the frontend,
-    // and so, how can I assert on the data?
-    // This is why this test is being skipped.
-    // TODO: Find a way to test it out.
+    
     it.skip('shows the right data for all rendered stories', () => {})
 
     it('shows 20 stories, then the next 20 after clicking "More"', () => {
@@ -192,7 +188,6 @@ context('Errors', () => {
 
     cy.contains(errorMsg)
       .should('be.visible')
-    
   })
 
   it('shows "Something went wrong ..." in case of a network error', () => {
@@ -213,6 +208,5 @@ context('Errors', () => {
 
     cy.contains(errorMsg)
       .should('be.visible')
-
   })
 })
