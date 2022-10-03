@@ -170,8 +170,7 @@ describe('Hacker Stories', () => {
   })
 })
 
-
-context.only('Errors', () => {
+context('Errors', () => {
 
   const errorMsg = 'Something went wrong ...'
 
