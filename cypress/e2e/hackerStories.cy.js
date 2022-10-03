@@ -72,15 +72,6 @@ describe('Hacker Stories', () => {
 
       it('orders by points', () => {})
     })
-
-    // Hrm, how would I simulate such errors?
-    // Since I still don't know, the tests are being skipped.
-    // TODO: Find a way to test them out.
-    context.skip('Errors', () => {
-      it('shows "Something went wrong ..." in case of a server error', () => {})
-
-      it('shows "Something went wrong ..." in case of a network error', () => {})
-    })
   })
 
   context('Search', () => {
@@ -162,19 +153,67 @@ describe('Hacker Stories', () => {
         cy.intercept({
           method: 'GET',
           pathname: '**/v1/search'
-          }).as('searches')
+          }).as('getRandomStories')
 
         Cypress._.times(6, () => {
           cy.get('#search')
             .clear()
             .type(`${faker.random.word()}{enter}`)
           
-          cy.wait('@searches')
+          cy.wait('@getRandomStories')
         })
 
         cy.get('.last-searches button')
           .should('have.length', 5)
       })
     })
+  })
+})
+
+
+context.only('Errors', () => {
+
+  const errorMsg = 'Something went wrong ...'
+
+  it('shows "Something went wrong ..." in case of a server error', () => {
+
+    cy.intercept(
+      'GET',
+      'search?query=cypress&page=0',
+      { statusCode: 500 }
+    ).as('getServerFailure')
+
+    cy.visit('/')
+
+    cy.get('#search')
+      .clear()
+      .type('cypress{enter}')
+
+    cy.wait('@getServerFailure')
+
+    cy.contains(errorMsg)
+      .should('be.visible')
+    
+  })
+
+  it('shows "Something went wrong ..." in case of a network error', () => {
+    
+    cy.intercept(
+      'GET',
+      'search?query=cypress&page=0',
+      { forceNetworkError: true }
+    ).as('getNetworkFailure')
+
+    cy.visit('/')
+
+    cy.get('#search')
+      .clear()
+      .type('cypress{enter}')
+
+    cy.wait('@getNetworkFailure')
+
+    cy.contains(errorMsg)
+      .should('be.visible')
+
   })
 })
