@@ -24,7 +24,7 @@ describe('Hacker Stories', () => {
   })
 
   context('List of stories', () => {
-    
+
     it.skip('shows the right data for all rendered stories', () => {})
 
     it('shows 20 stories, then the next 20 after clicking "More"', () => {
@@ -53,12 +53,7 @@ describe('Hacker Stories', () => {
 
       cy.get('.item').should('have.length', 19)
     })
-
-    // Since the API is external,
-    // I can't control what it will provide to the frontend,
-    // and so, how can I test ordering?
-    // This is why these tests are being skipped.
-    // TODO: Find a way to test them out.
+    
     context.skip('Order by', () => {
       it('orders by title', () => {})
 
