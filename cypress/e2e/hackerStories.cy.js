@@ -20,7 +20,7 @@ describe('Hacker Stories', () => {
       cy.contains('More').should('be.visible')
     })
 
-    it.only('shows 20 stories, then the next 20 after clicking "More"', () => {
+    it('shows 20 stories, then the next 20 after clicking "More"', () => {
       cy.get('.item').should('have.length', 20)
 
       cy.intercept({
