@@ -7,4 +7,5 @@ import 'cypress-localstorage-commands'
 
 Cypress.Commands.add('getFirstStorie', () => {
     cy.get(':nth-child(2) > [style="width: 40%;"] > a')
+      .should('be.visible')
 })
